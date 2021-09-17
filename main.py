@@ -57,7 +57,7 @@ class economicCalendar():
         token = self.__tokenTG
 
         async with aiohttp.ClientSession() as session:
-            async with session.post('https://api.telegram.org/bot1853282626:AAGLzTRzkOAMgOVXpxAwa-ar6HWr1v4R_co/sendMessage',data=data) as response:
+            async with session.post('https://api.telegram.org/bot'+TOKEN+'/sendMessage',data=data) as response:
                 await response.json()
 
     def datetime_to_hour_minute(self,time):
@@ -121,19 +121,17 @@ class economicCalendar():
                 if self.check_times(x['time']):
 
                     string_event = self.str_format(x['time'],x['importance'],x['currency'],x['text'])
-                    
+
                     self.__arrEconomicCalendar.remove(x)
                     await self.sendMessageTelegram(string_event)
 
             await asyncio.sleep(5)
 
 
-
 async def main():
     ec = economicCalendar(CHAT_ID,TOKEN,LINK)
     task = asyncio.create_task(ec.loop())
     await asyncio.gather(task)
-
 
 
 asyncio.run(main())
